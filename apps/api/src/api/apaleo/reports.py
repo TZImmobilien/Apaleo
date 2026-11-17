@@ -21,7 +21,9 @@ async def list_properties() -> list[dict]:
         if total is None or len(properties) >= total or len(payload["properties"]) < 100:
             break
         page += 1
-    return [p for p in properties if not p.get("isTemplate") and not p.get("isArchived")]
+    # `isTemplate` marks how a property was set up, not whether it earns: Wiesloch is flagged as
+    # a template and books ~45k a month. Only archived properties stay out.
+    return [p for p in properties if not p.get("isArchived")]
 
 
 async def performance_report(property_id: str, from_day: date, to_day: date) -> dict:
