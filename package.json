@@ -43,12 +43,10 @@
   "packageManager": "bun@1.4.0",
   "dependencies": {
     "@mistralai-capabilities/backend-fastapi": "0.1.71",
-    "@mistralai-capabilities/backend-workflows": "0.1.71",
     "@mistralai-capabilities/base-core": "0.1.71",
     "@mistralai-capabilities/deployment-apps": "0.1.71",
     "@mistralai-capabilities/deployment-apps-fastapi": "0.1.71",
     "@mistralai-capabilities/feature-fastapi-tanstack-start": "0.1.71",
-    "@mistralai-capabilities/feature-fastapi-workflows": "0.1.71",
     "@mistralai-capabilities/frontend-tanstack-start": "0.1.71"
   }
 }

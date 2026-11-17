@@ -11,9 +11,8 @@ import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 
 import { NotFound } from "./not-found";
-import { RootScreensContext } from "./root-screens";
-import type { RootScreens, RootTexts } from "./root-screens";
-import { Route as IndexRoute } from "./routes/index";
+import { RootScreensContext, useRootScreens } from "./root-screens";
+import type { RootScreens, RootTexts, StarterScreenProps } from "./root-screens";
 
 /**
  * A source that answers in French whatever it is asked, as a capability would contribute; `asked`
@@ -57,14 +56,34 @@ const french = (
   };
 };
 
+const STARTER_PATHS = {
+  file: "apps/web/src/routes/index.tsx",
+  directory: "apps/web/src/routes/",
+};
+
+/** A stand-in for the starter page the index route rendered before the app grew its own home. */
 const home = (): RouteComponent => {
-  const Home = IndexRoute.options.component;
+  const PlainStarter = ({ texts, appName, paths }: StarterScreenProps) => (
+    <main className="mx-auto flex min-h-full max-w-2xl flex-col justify-center gap-2 p-8">
+      <p className="text-sm">{texts.starterEyebrow}</p>
+      <h1 className="text-3xl font-semibold">{appName}</h1>
+      <p>
+        {texts.starterHint({
+          file: <code dir="ltr">{paths.file}</code>,
+          directory: <code dir="ltr">{paths.directory}</code>,
+        })}
+      </p>
+    </main>
+  );
 
-  if (Home === undefined) {
-    throw new Error("The index route has no component.");
-  }
+  const StarterPage = () => {
+    const appName = "apaleo-dashboard";
+    const { screens, texts } = useRootScreens();
+    const Screen = screens.Starter ?? PlainStarter;
+    return <Screen texts={texts} appName={appName} paths={STARTER_PATHS} />;
+  };
 
-  return Home;
+  return StarterPage;
 };
 
 const renderRoot = (

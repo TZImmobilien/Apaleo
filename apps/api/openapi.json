@@ -1,0 +1,842 @@
+{
+  "components": {
+    "schemas": {
+      "AccountInfo": {
+        "properties": {
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Type"
+          }
+        },
+        "title": "AccountInfo",
+        "type": "object"
+      },
+      "BootstrapResponse": {
+        "properties": {
+          "account": {
+            "$ref": "#/components/schemas/AccountInfo"
+          },
+          "properties": {
+            "items": {
+              "$ref": "#/components/schemas/PropertyInfo"
+            },
+            "title": "Properties",
+            "type": "array"
+          },
+          "today": {
+            "title": "Today",
+            "type": "string"
+          }
+        },
+        "required": [
+          "account",
+          "today",
+          "properties"
+        ],
+        "title": "BootstrapResponse",
+        "type": "object"
+      },
+      "DashboardResponse": {
+        "properties": {
+          "currency": {
+            "title": "Currency",
+            "type": "string"
+          },
+          "current_month": {
+            "$ref": "#/components/schemas/MonthEntry"
+          },
+          "previous_month": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MonthEntry"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revenue_breakdown": {
+            "items": {
+              "$ref": "#/components/schemas/RevenueRow"
+            },
+            "title": "Revenue Breakdown",
+            "type": "array"
+          },
+          "selected_property": {
+            "title": "Selected Property",
+            "type": "string"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/MonthEntry"
+            },
+            "title": "Timeline",
+            "type": "array"
+          },
+          "today": {
+            "title": "Today",
+            "type": "string"
+          },
+          "travel_purpose": {
+            "items": {
+              "$ref": "#/components/schemas/TravelPurpose"
+            },
+            "title": "Travel Purpose",
+            "type": "array"
+          },
+          "year_overview": {
+            "$ref": "#/components/schemas/YearOverview"
+          }
+        },
+        "required": [
+          "today",
+          "currency",
+          "selected_property",
+          "current_month",
+          "timeline",
+          "revenue_breakdown",
+          "travel_purpose",
+          "year_overview"
+        ],
+        "title": "DashboardResponse",
+        "type": "object"
+      },
+      "DependencyStatus": {
+        "properties": {
+          "configured": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Configured"
+          },
+          "reachable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reachable"
+          }
+        },
+        "title": "DependencyStatus",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "deployment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deployment"
+          },
+          "deps": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DependencyStatus"
+            },
+            "title": "Deps",
+            "type": "object"
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "deps"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "MonthEntry": {
+        "properties": {
+          "accommodation_revenue_gross": {
+            "title": "Accommodation Revenue Gross",
+            "type": "number"
+          },
+          "adr_gross": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Adr Gross"
+          },
+          "adr_net": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Adr Net"
+          },
+          "arrivals": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arrivals"
+          },
+          "available_room_nights": {
+            "title": "Available Room Nights",
+            "type": "integer"
+          },
+          "cancellations": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cancellations"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "days_in_month": {
+            "title": "Days In Month",
+            "type": "integer"
+          },
+          "delta_adr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delta Adr"
+          },
+          "delta_occupancy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delta Occupancy"
+          },
+          "delta_revenue": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delta Revenue"
+          },
+          "delta_revpar": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delta Revpar"
+          },
+          "departures": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Departures"
+          },
+          "fnb_revenue_gross": {
+            "title": "Fnb Revenue Gross",
+            "type": "number"
+          },
+          "is_current": {
+            "title": "Is Current",
+            "type": "boolean"
+          },
+          "is_future": {
+            "title": "Is Future",
+            "type": "boolean"
+          },
+          "los": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Los"
+          },
+          "month": {
+            "title": "Month",
+            "type": "string"
+          },
+          "no_shows": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "No Shows"
+          },
+          "occupancy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Occupancy"
+          },
+          "other_revenue_gross": {
+            "title": "Other Revenue Gross",
+            "type": "number"
+          },
+          "revenue_gross": {
+            "title": "Revenue Gross",
+            "type": "number"
+          },
+          "revenue_net": {
+            "title": "Revenue Net",
+            "type": "number"
+          },
+          "revpar": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revpar"
+          },
+          "room_nights": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Room Nights"
+          }
+        },
+        "required": [
+          "month",
+          "is_future",
+          "is_current",
+          "days_in_month",
+          "revenue_gross",
+          "revenue_net",
+          "accommodation_revenue_gross",
+          "fnb_revenue_gross",
+          "other_revenue_gross",
+          "available_room_nights"
+        ],
+        "title": "MonthEntry",
+        "type": "object"
+      },
+      "PropertyInfo": {
+        "properties": {
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "PropertyInfo",
+        "type": "object"
+      },
+      "RevenueRow": {
+        "properties": {
+          "account": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account"
+          },
+          "gross": {
+            "title": "Gross",
+            "type": "number"
+          },
+          "level": {
+            "title": "Level",
+            "type": "integer"
+          },
+          "net": {
+            "title": "Net",
+            "type": "number"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Number"
+          }
+        },
+        "required": [
+          "net",
+          "gross",
+          "level"
+        ],
+        "title": "RevenueRow",
+        "type": "object"
+      },
+      "TravelPurpose": {
+        "properties": {
+          "count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Count"
+          },
+          "percent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Percent"
+          },
+          "purpose": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purpose"
+          }
+        },
+        "title": "TravelPurpose",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "YearOverview": {
+        "properties": {
+          "forecast_revenue_gross": {
+            "title": "Forecast Revenue Gross",
+            "type": "number"
+          },
+          "months": {
+            "items": {
+              "$ref": "#/components/schemas/MonthEntry"
+            },
+            "title": "Months",
+            "type": "array"
+          },
+          "otb_adr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Otb Adr"
+          },
+          "otb_occupancy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Otb Occupancy"
+          },
+          "otb_revenue_gross": {
+            "title": "Otb Revenue Gross",
+            "type": "number"
+          },
+          "otb_room_nights": {
+            "title": "Otb Room Nights",
+            "type": "number"
+          },
+          "year": {
+            "title": "Year",
+            "type": "integer"
+          },
+          "ytd_adr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ytd Adr"
+          },
+          "ytd_arrivals": {
+            "title": "Ytd Arrivals",
+            "type": "number"
+          },
+          "ytd_cancellations": {
+            "title": "Ytd Cancellations",
+            "type": "number"
+          },
+          "ytd_los": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ytd Los"
+          },
+          "ytd_occupancy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ytd Occupancy"
+          },
+          "ytd_revenue_gross": {
+            "title": "Ytd Revenue Gross",
+            "type": "number"
+          },
+          "ytd_revpar": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ytd Revpar"
+          },
+          "ytd_room_nights": {
+            "title": "Ytd Room Nights",
+            "type": "number"
+          }
+        },
+        "required": [
+          "year",
+          "ytd_revenue_gross",
+          "ytd_room_nights",
+          "ytd_arrivals",
+          "ytd_cancellations",
+          "otb_revenue_gross",
+          "otb_room_nights",
+          "forecast_revenue_gross",
+          "months"
+        ],
+        "title": "YearOverview",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/dashboard": {
+      "get": {
+        "description": "Everything the dashboard shows: current month, history, future, and the year overview.",
+        "operationId": "dashboard_overview",
+        "parameters": [
+          {
+            "description": "Property ID, or 'all' for every property",
+            "in": "query",
+            "name": "property",
+            "required": false,
+            "schema": {
+              "default": "all",
+              "description": "Property ID, or 'all' for every property",
+              "title": "Property",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "past_months",
+            "required": false,
+            "schema": {
+              "default": 12,
+              "maximum": 24,
+              "minimum": 1,
+              "title": "Past Months",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "future_months",
+            "required": false,
+            "schema": {
+              "default": 6,
+              "maximum": 24,
+              "minimum": 0,
+              "title": "Future Months",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Overview"
+      }
+    },
+    "/api/dashboard/bootstrap": {
+      "get": {
+        "description": "Account, properties, and today's date in the account timezone.",
+        "operationId": "dashboard_bootstrap",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BootstrapResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Bootstrap"
+      }
+    },
+    "/api/health": {
+      "get": {
+        "description": "The app's status and each dependency's: whether Mistral is configured, whether each checked\nservice answers. ``degraded`` when one does not; the response is 200 either way.",
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Report dependency status; always answers 200"
+      }
+    }
+  }
+}
