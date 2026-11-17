@@ -15,7 +15,9 @@ from utils.mistral import caller_mistral_client
 logger = logging.getLogger(__name__)
 
 _CALL_TIMEOUT_SECONDS = 60
-_MAX_PARALLEL_CALLS = 8
+_MAX_PARALLEL_CALLS = 4
+_RATE_LIMIT_RETRIES = 4
+_RETRY_BASE_SECONDS = 2.0
 
 _semaphore = asyncio.Semaphore(_MAX_PARALLEL_CALLS)
 _cache: dict[tuple[str, str, str], tuple[float, Any]] = {}
@@ -67,14 +69,20 @@ async def call_tool(tool_name: str, arguments: dict | None = None, *, ttl_second
                 return hit[1]
 
     async with _semaphore:
-        try:
-            result = await _client().beta.connectors.call_tool_async(
-                connector_id_or_name=connector_name(),
-                tool_name=tool_name,
-                arguments=arguments,
-            )
-        except Exception as error:
-            raise ApaleoError(tool_name, str(error)) from error
+        for attempt in range(_RATE_LIMIT_RETRIES + 1):
+            try:
+                result = await _client().beta.connectors.call_tool_async(
+                    connector_id_or_name=connector_name(),
+                    tool_name=tool_name,
+                    arguments=arguments,
+                )
+                break
+            except Exception as error:
+                message = str(error)
+                if "429" in message and attempt < _RATE_LIMIT_RETRIES:
+                    await asyncio.sleep(_RETRY_BASE_SECONDS * (2**attempt))
+                    continue
+                raise ApaleoError(tool_name, message) from error
 
     payload = _extract_payload(result)
     if isinstance(payload, dict) and "data" in payload:
